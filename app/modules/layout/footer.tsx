@@ -10,20 +10,20 @@ export default function Footer() {
   const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-8b052a0e-447a-40f3-b36d-13d837b14dd5.png?alt=media";
 
   return (
-    <footer className="border-t border-ui-border-base dark:border-neutral-700 w-full bg-ui-bg-component dark:bg-neutral-900 transition-colors duration-200">
+    <footer className="border-t border-gray-200 dark:border-neutral-700 w-full bg-white dark:bg-neutral-900 transition-colors duration-200">
       <div className="content-container flex flex-col w-full">
         <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
           <div>
-            <Link to="/" className="txt-compact-xlarge-plus text-ui-fg-subtle dark:text-neutral-400 hover:text-ui-fg-base dark:hover:text-neutral-100 uppercase flex items-center gap-x-2">
+            <Link to="/" className="txt-compact-xlarge-plus text-gray-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-100 uppercase flex items-center gap-x-2">
               <img src={logoUrl} alt="Catalyst Pets Logo" className="h-8 w-auto" />
               Catalyst Pets
             </Link>
-            <Text className="txt-compact-small text-ui-fg-subtle dark:text-neutral-400 mt-2">Your pet's happiness, delivered.</Text>
+            <Text className="txt-compact-small text-gray-500 dark:text-neutral-400 mt-2">Your pet's happiness, delivered.</Text>
           </div>
           <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-2">
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base dark:text-neutral-100">Categories</span>
+                <span className="txt-small-plus text-neutral-800 dark:text-neutral-100">Categories</span>
                 <ul className="grid grid-cols-1 gap-2" data-testid="footer-categories">
                   {productCategories?.slice(0, 6).map((c) => {
                     if (c.parent_category) {
@@ -38,9 +38,9 @@ export default function Footer() {
                       })) || null;
 
                     return (
-                      <li className="flex flex-col gap-2 text-ui-fg-subtle dark:text-neutral-400 txt-small" key={c.id}>
+                      <li className="flex flex-col gap-2 text-gray-600 dark:text-neutral-400 txt-small" key={c.id}>
                         <Link
-                          className={cn("hover:text-ui-fg-interactive dark:hover:text-sky-400", children && "txt-small-plus")}
+                          className={cn("hover:text-sky-600 dark:hover:text-sky-400", children && "txt-small-plus")}
                           to={`/categories/${c.handle}`}
                           data-testid="category-link"
                         >
@@ -51,7 +51,7 @@ export default function Footer() {
                             {children?.map((child) => (
                               <li key={child.id}>
                                 <Link
-                                  className="hover:text-ui-fg-interactive dark:hover:text-sky-400"
+                                  className="hover:text-sky-600 dark:hover:text-sky-400"
                                   to={`/categories/${child.handle}`}
                                   data-testid="category-link"
                                 >
@@ -69,15 +69,15 @@ export default function Footer() {
             )}
             {collections && collections.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base dark:text-neutral-100">Collections</span>
+                <span className="txt-small-plus text-neutral-800 dark:text-neutral-100">Collections</span>
                 <ul
-                  className={cn("grid grid-cols-1 gap-2 text-ui-fg-subtle dark:text-neutral-400 txt-small", {
+                  className={cn("grid grid-cols-1 gap-2 text-gray-600 dark:text-neutral-400 txt-small", {
                     "grid-cols-2": (collections?.length || 0) > 3,
                   })}
                 >
                   {collections?.slice(0, 6).map((c) => (
                     <li key={c.id}>
-                      <Link className="hover:text-ui-fg-interactive dark:hover:text-sky-400" to={`/collections/${c.handle}`}>
+                      <Link className="hover:text-sky-600 dark:hover:text-sky-400" to={`/collections/${c.handle}`}>
                         {c.title}
                       </Link>
                     </li>
@@ -87,7 +87,7 @@ export default function Footer() {
             )}
           </div>
         </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted dark:text-neutral-500">
+        <div className="flex w-full mb-16 justify-between text-gray-500 dark:text-neutral-500">
           <Text className="txt-compact-small">© {new Date().getFullYear()} Catalyst Pets. All rights reserved.</Text>
         </div>
       </div>

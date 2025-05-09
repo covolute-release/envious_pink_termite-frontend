@@ -31,13 +31,13 @@ export function ThemeToggleButton() {
   return (
     <button
       onClick={toggle}
-      className="p-2 rounded-md hover:bg-ui-bg-base-hover focus:outline-none focus:ring-2 focus:ring-ui-border-interactive text-ui-fg-subtle dark:text-neutral-400 dark:hover:bg-neutral-700"
+      className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-600 dark:text-neutral-400"
       aria-label="Toggle theme"
     >
       {currentEffectiveTheme === "light" ? (
-        <Moon className="h-5 w-5 text-ui-fg-muted hover:text-ui-fg-base" />
+        <Moon className="h-5 w-5 text-gray-500 hover:text-gray-700" />
       ) : (
-        <Sun className="h-5 w-5 text-ui-fg-muted hover:text-ui-fg-base" />
+        <Sun className="h-5 w-5 text-gray-400 hover:text-gray-200" />
       )}
     </button>
   );

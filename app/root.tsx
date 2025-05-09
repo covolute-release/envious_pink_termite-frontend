@@ -122,14 +122,14 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center min-h-[calc(100vh-64px)]">
-      <h1 className="text-2xl-semi text-ui-fg-base dark:text-neutral-100">{_message}</h1>
-      <p className="text-small-regular text-ui-fg-base dark:text-neutral-300">{details}</p>
+      <h1 className="text-2xl-semi text-neutral-800 dark:text-neutral-100">{_message}</h1>
+      <p className="text-small-regular text-neutral-700 dark:text-neutral-300">{details}</p>
       <Link className="flex gap-x-1 items-center group" to="/">
-        <Text className="text-ui-fg-interactive dark:text-sky-400">Go to frontpage</Text>
-        <ArrowUpRightMini className="group-hover:rotate-45 ease-in-out duration-150" color="var(--fg-interactive)" />
+        <Text className="text-sky-600 dark:text-sky-400">Go to frontpage</Text>
+        <ArrowUpRightMini className="group-hover:rotate-45 ease-in-out duration-150" color="currentColor" />
       </Link>
       {_stack && (
-        <pre className="text-small-regular text-ui-fg-muted dark:text-neutral-500 max-w-[600px] overflow-x-auto">
+        <pre className="text-small-regular text-gray-500 dark:text-neutral-500 max-w-[600px] overflow-x-auto">
           {import.meta.env.DEV ? _stack : "Stack trace is hidden in production."}
         </pre>
       )}
