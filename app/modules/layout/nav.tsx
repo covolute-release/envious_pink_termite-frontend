@@ -28,13 +28,12 @@ export default function Nav({ regions }: { regions: StoreRegion[] }) {
             </Link>
           </div>
 
-          <div className="flex items-center gap-x-4 h-full flex-1 basis-0 justify-end"> {/* Reduced gap-x-6 to gap-x-4 for space */}
-            <div className="hidden small:flex items-center gap-x-4 h-full"> {/* Reduced gap-x-6 to gap-x-4 */}
-              <ThemeToggleButton />
-              <Link className="hover:text-sky-600 dark:hover:text-sky-400 text-neutral-800 dark:text-neutral-100" to="/account" data-testid="nav-account-link">
-                Account
-              </Link>
-            </div>
+          <div className="flex items-center gap-x-4 h-full flex-1 basis-0 justify-end">
+            {/* ThemeToggleButton and Account link are now directly in this flex container, making them always visible */}
+            <ThemeToggleButton />
+            <Link className="hover:text-sky-600 dark:hover:text-sky-400 text-neutral-800 dark:text-neutral-100" to="/account" data-testid="nav-account-link">
+              Account
+            </Link>
             <Suspense
               fallback={
                 <Link className="hover:text-sky-600 dark:hover:text-sky-400 text-neutral-800 dark:text-neutral-100 flex gap-2" to="/cart" data-testid="nav-cart-link">
