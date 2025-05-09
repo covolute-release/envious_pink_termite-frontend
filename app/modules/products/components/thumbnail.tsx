@@ -1,18 +1,18 @@
 import { Container } from "@/components/container";
 import { cn } from "@/lib/utils";
 import type React from "react";
-import { useState } from "react"; // Removed useCallback, useEffect
-// Removed useEmblaCarousel and Chevron icon imports
+import { useState } from "react";
 
 import PlaceholderImage from "@/modules/common/icons/placeholder-image";
 
 type ThumbnailProps = {
   thumbnail?: string | null;
-  images?: { url: string; id?: string }[] | null; // Updated images prop type to be more specific
+  images?: { url: string; id?: string }[] | null;
   size?: "small" | "medium" | "large" | "full" | "square";
   isFeatured?: boolean;
   className?: string;
   "data-testid"?: string;
+  productTitle?: string; // Added productTitle prop
 };
 
 const Thumbnail: React.FC<ThumbnailProps> = ({
@@ -22,6 +22,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   isFeatured,
   className,
   "data-testid": dataTestid,
+  productTitle, // Destructure productTitle
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -29,12 +30,15 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     thumbnail,
     ...(images?.map(img => img.url) || [])
   ]
-    .filter(Boolean) // Remove null or undefined
-    .filter((value, index, self) => self.indexOf(value as string) === index); // Remove duplicates, ensure value is string for indexOf
+    .filter(Boolean)
+    .filter((value, index, self) => self.indexOf(value as string) === index);
 
   const hasMultipleImages = allImages.length > 1;
 
   const imageSizesAttribute = "(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px";
+
+  const primaryAltText = productTitle ? `${productTitle} - Main view` : "Product image 1";
+  const secondaryAltText = productTitle ? `${productTitle} - Hover view` : "Product image 2";
 
   return (
     <Container
@@ -68,12 +72,12 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           {/* First image (default) */}
           <img
             src={allImages[0]}
-            alt="Product image 1"
+            alt={primaryAltText}
             className={cn(
               "absolute inset-0 object-cover object-center w-full h-full rounded-large transition-all duration-300 ease-in-out",
               {
                 "transform translate-y-0 opacity-100": !isHovered,
-                "transform -translate-y-full opacity-0": isHovered, // Scrolls up and out
+                "transform -translate-y-full opacity-0": isHovered,
               }
             )}
             draggable={false}
@@ -83,12 +87,12 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           {/* Second image (on hover) */}
           <img
             src={allImages[1]}
-            alt="Product image 2"
+            alt={secondaryAltText}
             className={cn(
               "absolute inset-0 object-cover object-center w-full h-full rounded-large transition-all duration-300 ease-in-out",
               {
-                "transform translate-y-full opacity-0": !isHovered, // Starts below and hidden
-                "transform translate-y-0 opacity-100": isHovered,   // Scrolls in to view
+                "transform translate-y-full opacity-0": !isHovered,
+                "transform translate-y-0 opacity-100": isHovered,
               }
             )}
             draggable={false}
@@ -97,17 +101,18 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           />
         </>
       ) : (
-        <ImageOrPlaceholder image={allImages[0]} size={size} />
+        <ImageOrPlaceholder image={allImages[0]} size={size} productTitle={productTitle} />
       )}
     </Container>
   );
 };
 
-const ImageOrPlaceholder = ({ image, size }: Pick<ThumbnailProps, "size"> & { image?: string }) => {
+const ImageOrPlaceholder = ({ image, size, productTitle }: Pick<ThumbnailProps, "size" | "productTitle"> & { image?: string }) => {
+  const singleImageAltText = productTitle || "Product image";
   return image ? (
     <img
       src={image}
-      alt="Thumbnail"
+      alt={singleImageAltText}
       className="absolute inset-0 object-cover object-center w-full h-full rounded-large"
       draggable={false}
       loading="lazy"
