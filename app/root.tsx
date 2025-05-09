@@ -75,13 +75,44 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  // This script runs immediately to set the theme before React hydration, preventing FOUC.
+  const themeScript = `
+    (function() {
+      try {
+        let theme = localStorage.getItem('shopable-theme');
+        // If theme is explicitly 'light' or 'dark', use that.
+        // Otherwise (if 'system', null, or invalid), determine from system preference.
+        if (theme !== 'light' && theme !== 'dark') {
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = 'dark';
+          } else {
+            theme = 'light';
+          }
+        }
+
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {
+        // If any error occurs (e.g., localStorage is disabled),
+        // it will default to light mode or whatever the CSS specifies without 'dark' class.
+        // The ThemeProvider will still run later to apply the correct theme.
+        console.warn('Initial theme script failed, relying on ThemeProvider for full theme application.', e);
+      }
+    })();
+  `;
+
   return (
-    <html lang="en"> {/* Removed className="", ThemeProvider will manage dark/light on html tag */}
+    <html lang="en"> {/* The 'dark' class will be managed by the script and ThemeProvider */}
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        {/* Embed the theme script directly into the head */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {import.meta.env.DEV && <script crossOrigin="anonymous" src="//unpkg.com/shopable-scan/dist/auto.global.js" />}
       </head>
       <body className="bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
