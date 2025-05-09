@@ -27,7 +27,7 @@ export default function ProductPreview({
           productTitle={product.title} // Pass product title for alt text
         />
         <div className="flex txt-compact-medium mt-4 justify-between">
-          <Text className="text-ui-fg-subtle truncate" data-testid="product-title"> {/* Added truncate class */}
+          <Text className="text-neutral-800 dark:text-neutral-200 truncate" data-testid="product-title"> {/* Updated text color */}
             {product.title}
           </Text>
           <div className="flex items-center gap-x-2">{cheapestPrice && <PreviewPrice price={cheapestPrice} />}</div>
