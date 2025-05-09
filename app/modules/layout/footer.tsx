@@ -8,16 +8,18 @@ import type { loader } from "@/routes/_main";
 
 export default function Footer() {
   const { collections, categories: productCategories } = useLoaderData<typeof loader>();
+  const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-43e7e4e7-4f1a-43ee-adce-65fe939c8af1.png?alt=media";
 
   return (
-    <footer className="border-t border-ui-border-base w-full">
+    <footer className="border-t border-ui-border-base w-full bg-ui-bg-component">
       <div className="content-container flex flex-col w-full">
         <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
           <div>
-            <Link to="/" className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase">
-              Shopable Store
+            <Link to="/" className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase flex items-center gap-x-2">
+              <img src={logoUrl} alt="Catalyst Pets Logo" className="h-8 w-auto" />
+              Catalyst Pets
             </Link>
-            <Text className="txt-compact-small text-ui-fg-subtle mt-2">Template by Shopable</Text>
+            <Text className="txt-compact-small text-ui-fg-subtle mt-2">Your pet's happiness, delivered.</Text>
           </div>
           <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-2">
             {" "}
@@ -41,7 +43,7 @@ export default function Footer() {
                     return (
                       <li className="flex flex-col gap-2 text-ui-fg-subtle txt-small" key={c.id}>
                         <Link
-                          className={cn("hover:text-ui-fg-base", children && "txt-small-plus")}
+                          className={cn("hover:text-ui-fg-interactive", children && "txt-small-plus")}
                           to={`/categories/${c.handle}`}
                           data-testid="category-link"
                         >
@@ -52,7 +54,7 @@ export default function Footer() {
                             {children?.map((child) => (
                               <li key={child.id}>
                                 <Link
-                                  className="hover:text-ui-fg-base"
+                                  className="hover:text-ui-fg-interactive"
                                   to={`/categories/${child.handle}`}
                                   data-testid="category-link"
                                 >
@@ -78,7 +80,7 @@ export default function Footer() {
                 >
                   {collections?.slice(0, 6).map((c) => (
                     <li key={c.id}>
-                      <Link className="hover:text-ui-fg-base" to={`/collections/${c.handle}`}>
+                      <Link className="hover:text-ui-fg-interactive" to={`/collections/${c.handle}`}>
                         {c.title}
                       </Link>
                     </li>
@@ -90,7 +92,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">© {new Date().getFullYear()} Shopable Store. All rights reserved.</Text>
+          <Text className="txt-compact-small">© {new Date().getFullYear()} Catalyst Pets. All rights reserved.</Text>
           {/* MedusaCTA removed */}
         </div>
       </div>

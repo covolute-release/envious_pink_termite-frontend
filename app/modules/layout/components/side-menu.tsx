@@ -44,7 +44,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                 <div className="relative flex h-full">
                   <PopoverButton
                     data-testid="nav-menu-button"
-                    className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
+                    className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base text-ui-fg-base"
                   >
                     Menu
                   </PopoverButton>
@@ -66,11 +66,11 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                   >
                     <div
                       data-testid="nav-menu-popup"
-                      className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-rounded justify-between p-6"
+                      className="flex flex-col h-full bg-[rgba(30,41,59,0.85)] rounded-rounded justify-between p-6" // Darker background for side menu
                     >
                       <div className="flex justify-end" id="xmark">
                         <button data-testid="close-menu-button" onClick={close} type="button">
-                          <XMark />
+                          <XMark className="text-ui-fg-base hover:text-ui-fg-interactive"/>
                         </button>
                       </div>
                       <ul className="flex flex-col gap-6 items-start justify-start">
@@ -79,7 +79,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                             <li key={name}>
                               <Link
                                 to={href}
-                                className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                                className="text-3xl leading-10 hover:text-ui-fg-interactive text-ui-fg-base"
                                 onClick={close}
                                 data-testid={`${name.toLowerCase()}-link`}
                               >
@@ -91,7 +91,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                       </ul>
                       <div className="flex flex-col gap-y-6">
                         <div
-                          className="flex justify-between"
+                          className="flex justify-between items-center text-ui-fg-base" // Ensure text is visible
                           onMouseEnter={toggleState.open}
                           onMouseLeave={toggleState.close}
                         >
@@ -108,11 +108,11 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                             />
                           )}
                           <ArrowRightMini
-                            className={cn("transition-transform duration-150", toggleState.state ? "-rotate-90" : "")}
+                            className={cn("transition-transform duration-150 text-ui-fg-base", toggleState.state ? "-rotate-90" : "")}
                           />
                         </div>
-                        <Text className="flex justify-between txt-compact-small">
-                          © {new Date().getFullYear()} Shopable Store. All rights reserved.
+                        <Text className="flex justify-between txt-compact-small text-ui-fg-muted">
+                          © {new Date().getFullYear()} Catalyst Pets. All rights reserved.
                         </Text>
                       </div>
                     </div>
