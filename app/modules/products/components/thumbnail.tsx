@@ -1,15 +1,14 @@
 import { Container } from "@/components/container";
 import { cn } from "@/lib/utils";
 import type React from "react";
-import { useCallback, useEffect, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react"; // Removed useCallback, useEffect
+// Removed useEmblaCarousel and Chevron icon imports
 
 import PlaceholderImage from "@/modules/common/icons/placeholder-image";
 
 type ThumbnailProps = {
   thumbnail?: string | null;
-  images?: any[] | null; // TODO: Fix image typings
+  images?: { url: string; id?: string }[] | null; // Updated images prop type to be more specific
   size?: "small" | "medium" | "large" | "full" | "square";
   isFeatured?: boolean;
   className?: string;
@@ -24,35 +23,18 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   className,
   "data-testid": dataTestid,
 }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
-  const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const allImages = [thumbnail, ...(images?.map(img => img.url) || [])]
+  const allImages = [
+    thumbnail,
+    ...(images?.map(img => img.url) || [])
+  ]
     .filter(Boolean) // Remove null or undefined
-    .filter((value, index, self) => self.indexOf(value) === index); // Remove duplicates
-
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setPrevBtnDisabled(!emblaApi.canScrollPrev());
-    setNextBtnDisabled(!emblaApi.canScrollNext());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-    };
-  }, [emblaApi, onSelect]);
+    .filter((value, index, self) => self.indexOf(value as string) === index); // Remove duplicates, ensure value is string for indexOf
 
   const hasMultipleImages = allImages.length > 1;
+
+  const imageSizesAttribute = "(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px";
 
   return (
     <Container
@@ -70,40 +52,50 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
         },
       )}
       data-testid={dataTestid}
+      onMouseEnter={() => {
+        if (hasMultipleImages) {
+          setIsHovered(true);
+        }
+      }}
+      onMouseLeave={() => {
+        if (hasMultipleImages) {
+          setIsHovered(false);
+        }
+      }}
     >
-      {hasMultipleImages ? (
-        <div className="overflow-hidden h-full" ref={emblaRef}>
-          <div className="flex h-full">
-            {allImages.map((image, index) => (
-              <div className="relative flex-[0_0_100%] min-w-0 h-full" key={index}>
-                <img
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="absolute inset-0 object-cover object-center w-full h-full rounded-large"
-                  draggable={false}
-                  loading="lazy"
-                  sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
-                />
-              </div>
-            ))}
-          </div>
-          <button
-            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-1 rounded-full z-10 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            onClick={scrollPrev}
-            disabled={prevBtnDisabled}
-            aria-label="Previous image"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-1 rounded-full z-10 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            onClick={scrollNext}
-            disabled={nextBtnDisabled}
-            aria-label="Next image"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+      {hasMultipleImages && allImages[0] && allImages[1] ? (
+        <>
+          {/* First image (default) */}
+          <img
+            src={allImages[0]}
+            alt="Product image 1"
+            className={cn(
+              "absolute inset-0 object-cover object-center w-full h-full rounded-large transition-all duration-300 ease-in-out",
+              {
+                "transform translate-y-0 opacity-100": !isHovered,
+                "transform -translate-y-full opacity-0": isHovered, // Scrolls up and out
+              }
+            )}
+            draggable={false}
+            loading="lazy"
+            sizes={imageSizesAttribute}
+          />
+          {/* Second image (on hover) */}
+          <img
+            src={allImages[1]}
+            alt="Product image 2"
+            className={cn(
+              "absolute inset-0 object-cover object-center w-full h-full rounded-large transition-all duration-300 ease-in-out",
+              {
+                "transform translate-y-full opacity-0": !isHovered, // Starts below and hidden
+                "transform translate-y-0 opacity-100": isHovered,   // Scrolls in to view
+              }
+            )}
+            draggable={false}
+            loading="lazy"
+            sizes={imageSizesAttribute}
+          />
+        </>
       ) : (
         <ImageOrPlaceholder image={allImages[0]} size={size} />
       )}
@@ -122,7 +114,7 @@ const ImageOrPlaceholder = ({ image, size }: Pick<ThumbnailProps, "size"> & { im
       sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
     />
   ) : (
-    <div className="w-full h-full absolute inset-0 flex items-center justify-center p-4"> {/* Added p-4 here for placeholder */}
+    <div className="w-full h-full absolute inset-0 flex items-center justify-center p-4">
       <PlaceholderImage size={size === "small" ? 16 : 24} />
     </div>
   );
