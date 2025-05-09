@@ -6,7 +6,7 @@ import SideMenu from "@/modules/layout/components/side-menu";
 import { Link } from "@remix-run/react";
 
 export default function Nav({ regions }: { regions: StoreRegion[] }) {
-  const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-961b9257-fe6d-480f-a49a-8ae3d79ab90a.png?alt=media";
+  const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-8b052a0e-447a-40f3-b36d-13d837b14dd5.png?alt=media";
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
       <header className="relative h-16 mx-auto border-b duration-200 bg-ui-bg-component border-ui-border-base">
