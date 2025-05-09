@@ -3,7 +3,7 @@ import { Heading } from "@/components/heading";
 import LocalizedClientLink from "@/modules/common/components/localized-client-link";
 
 const Hero = () => {
-  const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-43e7e4e7-4f1a-43ee-adce-65fe939c8af1.png?alt=media";
+  const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-961b9257-fe6d-480f-a49a-8ae3d79ab90a.png?alt=media";
   return (
     <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
       <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">

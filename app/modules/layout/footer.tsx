@@ -8,7 +8,7 @@ import type { loader } from "@/routes/_main";
 
 export default function Footer() {
   const { collections, categories: productCategories } = useLoaderData<typeof loader>();
-  const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-43e7e4e7-4f1a-43ee-adce-65fe939c8af1.png?alt=media";
+  const logoUrl = "https://firebasestorage.googleapis.com/v0/b/shopable-60057.firebasestorage.app/o/stores%2F8756da28-3f06-4185-b5a1-5e7dbe937d38%2Fimages%2Fgenerated-961b9257-fe6d-480f-a49a-8ae3d79ab90a.png?alt=media";
 
   return (
     <footer className="border-t border-ui-border-base w-full bg-ui-bg-component">
