@@ -8,6 +8,7 @@ import { Fragment, useEffect, useRef } from "react";
 import { Link } from "@remix-run/react";
 import CountrySelect from "./country-select";
 import type { HttpTypes } from "@medusajs/types";
+import { ThemeToggleButton } from "@/components/theme-toggle-button"; // Import ThemeToggleButton
 
 const SideMenuItems = {
   Home: "/",
@@ -90,6 +91,10 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                         })}
                       </ul>
                       <div className="flex flex-col gap-y-6">
+                        <div className="flex items-center justify-between mt-4">
+                          <span className="text-neutral-800 dark:text-neutral-100">Theme:</span>
+                          <ThemeToggleButton />
+                        </div>
                         <div
                           className="flex justify-between items-center text-neutral-800 dark:text-neutral-100"
                           onMouseEnter={toggleState.open}

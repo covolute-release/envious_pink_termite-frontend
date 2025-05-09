@@ -24,16 +24,18 @@ export default function Nav({ regions }: { regions: StoreRegion[] }) {
               data-testid="nav-store-link"
             >
               <img src={logoUrl} alt="Catalyst Pets Logo" className="h-8 w-auto" />
-              Catalyst Pets
+              <span className="hidden sm:inline">Catalyst Pets</span>
             </Link>
           </div>
 
-          <div className="flex items-center gap-x-4 h-full flex-1 basis-0 justify-end">
-            {/* ThemeToggleButton and Account link are now directly in this flex container, making them always visible */}
-            <ThemeToggleButton />
-            <Link className="hover:text-sky-600 dark:hover:text-sky-400 text-neutral-800 dark:text-neutral-100" to="/account" data-testid="nav-account-link">
-              Account
-            </Link>
+          <div className="flex items-center gap-x-2 sm:gap-x-4 h-full flex-1 basis-0 justify-end">
+            {/* ThemeToggleButton and Account link are hidden on small screens, visible on sm and up */}
+            <div className="hidden sm:flex items-center gap-x-2 sm:gap-x-4">
+              <ThemeToggleButton />
+              <Link className="hover:text-sky-600 dark:hover:text-sky-400 text-neutral-800 dark:text-neutral-100" to="/account" data-testid="nav-account-link">
+                Account
+              </Link>
+            </div>
             <Suspense
               fallback={
                 <Link className="hover:text-sky-600 dark:hover:text-sky-400 text-neutral-800 dark:text-neutral-100 flex gap-2" to="/cart" data-testid="nav-cart-link">
