@@ -60,14 +60,15 @@ const CartDropdown = ({
     if (itemRef.current !== totalItems && !pathname.includes("/cart")) {
       timedOpen();
     }
+    itemRef.current = totalItems; // Update ref after check
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalItems, itemRef.current]);
+  }, [totalItems, pathname]); // Removed itemRef.current from deps, added pathname
 
   return (
     <div className="h-full z-50" onMouseEnter={openAndCancel} onMouseLeave={close}>
       <Popover className="relative h-full">
         <PopoverButton className="h-full">
-          <Link className="hover:text-ui-fg-base" to="/cart" data-testid="nav-cart-link">{`Cart (${totalItems})`}</Link>
+          <Link className="hover:text-ui-fg-base dark:hover:text-sky-400 text-ui-fg-base dark:text-neutral-100" to="/cart" data-testid="nav-cart-link">{`Cart (${totalItems})`}</Link>
         </PopoverButton>
         <Transition
           show={cartDropdownOpen}
@@ -81,11 +82,11 @@ const CartDropdown = ({
         >
           <PopoverPanel
             static
-            className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[420px] text-ui-fg-base"
+            className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white dark:bg-neutral-800 border-x border-b border-gray-200 dark:border-neutral-700 w-[420px] text-ui-fg-base dark:text-neutral-200 shadow-lg transition-colors duration-200"
             data-testid="nav-cart-dropdown"
           >
             <div className="p-4 flex items-center justify-center">
-              <h3 className="text-large-semi">Cart</h3>
+              <h3 className="text-large-semi text-ui-fg-base dark:text-neutral-100">Cart</h3>
             </div>
             {cartState?.items?.length ? (
               <>
@@ -104,7 +105,7 @@ const CartDropdown = ({
                             <div className="flex items-start justify-between">
                               <div className="flex flex-col overflow-ellipsis whitespace-nowrap mr-4 w-[180px]">
                                 <h3 className="text-base-regular overflow-hidden text-ellipsis">
-                                  <Link to={`/products/${item.product_handle}`} data-testid="product-link">
+                                  <Link to={`/products/${item.product_handle}`} data-testid="product-link" className="hover:text-ui-fg-interactive dark:hover:text-sky-400 text-ui-fg-base dark:text-neutral-100">
                                     {item.title}
                                   </Link>
                                 </h3>
@@ -113,7 +114,7 @@ const CartDropdown = ({
                                   data-testid="cart-item-variant"
                                   data-value={item.variant}
                                 />
-                                <span data-testid="cart-item-quantity" data-value={item.quantity}>
+                                <span data-testid="cart-item-quantity" data-value={item.quantity} className="text-ui-fg-subtle dark:text-neutral-400">
                                   Quantity: {item.quantity}
                                 </span>
                               </div>
@@ -122,7 +123,7 @@ const CartDropdown = ({
                               </div>
                             </div>
                           </div>
-                          <DeleteButton id={item.id} className="mt-1" data-testid="cart-item-remove-button">
+                          <DeleteButton id={item.id} className="mt-1 text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-500" data-testid="cart-item-remove-button">
                             Remove
                           </DeleteButton>
                         </div>
@@ -131,10 +132,10 @@ const CartDropdown = ({
                 </div>
                 <div className="p-4 flex flex-col gap-y-4 text-small-regular">
                   <div className="flex items-center justify-between">
-                    <span className="text-ui-fg-base font-semibold">
+                    <span className="text-ui-fg-base dark:text-neutral-200 font-semibold">
                       Subtotal <span className="font-normal">(excl. taxes)</span>
                     </span>
-                    <span className="text-large-semi" data-testid="cart-subtotal" data-value={subtotal}>
+                    <span className="text-large-semi text-ui-fg-emphasis dark:text-neutral-100" data-testid="cart-subtotal" data-value={subtotal}>
                       {convertToLocale({
                         amount: subtotal,
                         currency_code: cartState.currency_code,
@@ -142,7 +143,7 @@ const CartDropdown = ({
                     </span>
                   </div>
                   <Link to="/cart">
-                    <Button className="w-full" size="large" data-testid="go-to-cart-button">
+                    <Button className="w-full bg-blue-500 hover:bg-blue-600 dark:bg-sky-500 dark:hover:bg-sky-600 text-white" size="large" data-testid="go-to-cart-button">
                       Go to cart
                     </Button>
                   </Link>
@@ -151,15 +152,15 @@ const CartDropdown = ({
             ) : (
               <div>
                 <div className="flex py-16 flex-col gap-y-4 items-center justify-center">
-                  <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
+                  <div className="bg-gray-900 dark:bg-neutral-700 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white dark:text-neutral-200">
                     <span>0</span>
                   </div>
-                  <span>Your shopping bag is empty.</span>
+                  <span className="text-ui-fg-subtle dark:text-neutral-300">Your shopping bag is empty.</span>
                   <div>
                     <Link to="/store">
                       <>
                         <span className="sr-only">Go to all products page</span>
-                        <Button onClick={close}>Explore products</Button>
+                        <Button onClick={close} className="bg-blue-500 hover:bg-blue-600 dark:bg-sky-500 dark:hover:bg-sky-600 text-white">Explore products</Button>
                       </>
                     </Link>
                   </div>

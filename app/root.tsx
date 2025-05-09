@@ -10,6 +10,7 @@ import readonlyStylesheet from "./styles/readonly.css?url";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { logServerError } from "./lib/error-process-server";
 import { reportClientError } from "./lib/error-process-client";
+import { ThemeProvider } from "@/context/theme-provider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: globalStylesheet },
@@ -75,7 +76,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en"> {/* Removed className="", ThemeProvider will manage dark/light on html tag */}
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -83,10 +84,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
         {import.meta.env.DEV && <script crossOrigin="anonymous" src="//unpkg.com/shopable-scan/dist/auto.global.js" />}
       </head>
-      <body>
-        <TooltipProvider>{children}</TooltipProvider>
-        <ScrollRestoration />
-        <Scripts />
+      <body className="bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
+        <ThemeProvider storageKey="shopable-theme" defaultTheme="system">
+          <TooltipProvider>{children}</TooltipProvider>
+          <ScrollRestoration />
+          <Scripts />
+        </ThemeProvider>
       </body>
     </html>
   );
@@ -119,14 +122,14 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center min-h-[calc(100vh-64px)]">
-      <h1 className="text-2xl-semi text-ui-fg-base">{_message}</h1>
-      <p className="text-small-regular text-ui-fg-base">{details}</p>
+      <h1 className="text-2xl-semi text-ui-fg-base dark:text-neutral-100">{_message}</h1>
+      <p className="text-small-regular text-ui-fg-base dark:text-neutral-300">{details}</p>
       <Link className="flex gap-x-1 items-center group" to="/">
-        <Text className="text-ui-fg-interactive">Go to frontpage</Text>
+        <Text className="text-ui-fg-interactive dark:text-sky-400">Go to frontpage</Text>
         <ArrowUpRightMini className="group-hover:rotate-45 ease-in-out duration-150" color="var(--fg-interactive)" />
       </Link>
       {_stack && (
-        <pre className="text-small-regular text-ui-fg-muted max-w-[600px] overflow-x-auto">
+        <pre className="text-small-regular text-ui-fg-muted dark:text-neutral-500 max-w-[600px] overflow-x-auto">
           {import.meta.env.DEV ? _stack : "Stack trace is hidden in production."}
         </pre>
       )}
